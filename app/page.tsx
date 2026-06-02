@@ -69,7 +69,7 @@ export default function Home() {
       }
     });
 
-    if (applyAdjustment && activeItemsCount > 0) {
+    if (applyAdjustment && bsrTotal > 100000) {
       bsrTotal = Math.max(0, bsrTotal - 99803.23);
       dsrTotal = Math.max(0, dsrTotal + 2.33);
     }
