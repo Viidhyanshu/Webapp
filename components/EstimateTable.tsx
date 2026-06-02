@@ -437,7 +437,6 @@ export default function EstimateTable({
         {/* Footer status text */}
         <div className="bg-[var(--background)] border-t border-[var(--border-color)] p-3 text-[var(--text-muted)] text-xs flex justify-between">
           <span>Row Count: {rows.length} rows</span>
-          <span>Click any text/cell to edit values instantly. Changes auto-save locally.</span>
         </div>
 
       </div>
