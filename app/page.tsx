@@ -17,22 +17,19 @@ import {
 export default function Home() {
   const [project, setProject] = useState<ProjectDetails>(DEFAULT_PROJECT_DETAILS);
   const [rows, setRows] = useState<EstimateRow[]>(DEFAULT_ROWS);
-  const [applyAdjustment, setApplyAdjustment] = useState<boolean>(true);
+  const applyAdjustment = false;
   const [activeTab, setActiveTab] = useState<'workspace' | 'preview'>('workspace');
   const [theme, setTheme] = useState<'dark' | 'light'>('light'); // Default to light mode
   const [selectedRowId, setSelectedRowId] = useState<string | null>(null);
   const [showSubtotalsInPrint, setShowSubtotalsInPrint] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Load from local storage on mount
   useEffect(() => {
     const savedProject = localStorage.getItem('est_project_details_v6');
     const savedRows = localStorage.getItem('est_rows_v6');
-    const savedAdjustment = localStorage.getItem('est_apply_adjustment_v6');
     
     if (savedProject) setProject(JSON.parse(savedProject));
     if (savedRows) setRows(JSON.parse(savedRows));
-    if (savedAdjustment) setApplyAdjustment(JSON.parse(savedAdjustment));
     
     // Force light theme
     setTheme('light');
@@ -48,9 +45,7 @@ export default function Home() {
     localStorage.setItem('est_rows_v6', JSON.stringify(rows));
   }, [rows]);
 
-  useEffect(() => {
-    localStorage.setItem('est_apply_adjustment_v6', JSON.stringify(applyAdjustment));
-  }, [applyAdjustment]);
+
 
   // Calculate sums per column
   const getTotals = () => {
@@ -308,8 +303,6 @@ export default function Home() {
                 project={project}
                 setProject={setProject}
                 formatLakhs={formatLakhs}
-                applyAdjustment={applyAdjustment}
-                setApplyAdjustment={setApplyAdjustment}
               />
               <HeaderSettings 
                 project={project}
