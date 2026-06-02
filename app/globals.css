@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --card-bg: #1e293b;
+  --border-color: #334155;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --text-muted: #94a3b8;
+  --input-bg: #0b0f19;
+  --table-hdr-bg: #1e293b;
+  --table-row-hover: #334155/30;
+}
+
+[data-theme="light"] {
+  --background: #f1f5f9;
+  --foreground: #0f172a;
+  --card-bg: #ffffff;
+  --border-color: #cbd5e1;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --text-muted: #475569;
+  --input-bg: #f8fafc;
+  --table-hdr-bg: #e2e8f0;
+  --table-row-hover: #f1f5f9;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Print Overrides */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-family: Arial, sans-serif !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+  
+  /* Reset print page margins */
+  @page {
+    margin: 1.27cm; /* 0.5 in margins */
+    size: A4;
+  }
+  
+  /* Ensure table elements don't get awkwardly split across pages */
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  
+  thead {
+    display: table-header-group;
+  }
+  
+  tfoot {
+    display: table-footer-group;
+  }
+}
+
+/* Custom scrollbar for spreadsheet view */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.8);
+}
