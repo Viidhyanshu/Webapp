@@ -55,7 +55,7 @@ export default function PrintableContent({
           <tr className="border-b border-black text-center font-bold">
             <td className="py-1 px-1 border-r border-black"></td>
             <td className="py-1 px-2 border-r border-black">{project.floorArea}</td>
-            <td className="py-1 px-2 font-bold">{project.estimatedCostText} RUPEES IN LAKH</td>
+            <td className="py-1 px-2 font-bold">{formatLakhs(totals.grand)} RUPEES IN LAKH</td>
           </tr>
           {/* HT Row */}
           <tr className="text-right">

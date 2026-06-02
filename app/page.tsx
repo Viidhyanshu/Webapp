@@ -243,7 +243,7 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.43 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              Print Preview (Same to Same)
+              Print Preview
             </button>
           </div>
 
@@ -319,21 +319,6 @@ export default function Home() {
         {activeTab === 'preview' && (
           <div className="flex-1 flex flex-col items-center gap-6 overflow-y-auto no-print">
             
-            {/* Quick tips bar */}
-            <div className="w-full max-w-[800px] bg-[var(--card-bg)] border border-[var(--border-color)] p-4 rounded-2xl text-xs space-y-2">
-              <h4 className="font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
-                </svg>
-                Print Formatting Tips:
-              </h4>
-              <ul className="list-disc pl-4 text-[var(--text-muted)] space-y-1">
-                <li>Make sure to set the layout to <strong>Portrait</strong> in your browser's print options.</li>
-                <li>Enable <strong>Background graphics</strong> to ensure colors like the red rates render perfectly.</li>
-                <li>Set scale to <strong>100%</strong> or <strong>Fit to page width</strong> if the edges are cropped.</li>
-                <li>This preview is formatted exactly in A4 size. Clicking "Print Estimate" or pressing <code>Cmd+P</code> / <code>Ctrl+P</code> will export this sheet directly without any headers, buttons, or workspace borders.</li>
-              </ul>
-            </div>
 
             {/* Paper Sheet Preview container */}
             <div className="w-full max-w-[800px] bg-white text-black p-10 shadow-2xl border border-gray-200 min-h-[1100px] flex flex-col font-sans relative">

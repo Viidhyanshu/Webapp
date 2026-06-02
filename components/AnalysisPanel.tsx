@@ -60,15 +60,13 @@ export default function AnalysisPanel({
       <div className="bg-[var(--background)] rounded-xl p-3 border border-[var(--border-color)] transition-colors duration-300">
         <div className="flex justify-between items-center mb-1">
           <label className="text-xs text-[var(--text-muted)] font-medium">Header Estimated Cost (Lakhs)</label>
-          <span className="text-[10px] text-slate-500">Matches Print</span>
         </div>
         <input
           type="text"
-          value={project.estimatedCostText}
-          onChange={(e) => setProject({ ...project, estimatedCostText: e.target.value })}
-          className="w-full bg-[var(--input-bg)] border border-[var(--border-color)] rounded-lg px-3 py-1.5 text-sm font-bold text-[var(--foreground)] focus:outline-none focus:border-[var(--accent)] transition-colors duration-300"
+          value={formatLakhs(totals.grand)}
+          readOnly
+          className="w-full bg-[var(--input-bg)] border border-[var(--border-color)] rounded-lg px-3 py-1.5 text-sm font-bold text-[var(--foreground)] opacity-70 cursor-not-allowed focus:outline-none transition-colors duration-300"
         />
-        <p className="text-[10px] text-[var(--text-muted)] mt-1">This overrides the estimated cost text in the main header of the spreadsheet printout.</p>
       </div>
 
     </div>
