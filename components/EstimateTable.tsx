@@ -49,7 +49,7 @@ export default function EstimateTable({
         
         <button
           onClick={() => addRow('item')}
-          className="bg-blue-50 hover:bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:border-blue-800/80 dark:hover:bg-blue-900 dark:text-blue-300 border border-blue-200 dark:border-transparent px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1 cursor-pointer"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm border border-blue-700"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -59,7 +59,7 @@ export default function EstimateTable({
 
         <button
           onClick={() => addRow('sub-item')}
-          className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 dark:bg-indigo-950/60 dark:border-indigo-800/80 dark:hover:bg-indigo-900 dark:text-indigo-300 border border-indigo-200 dark:border-transparent px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1 cursor-pointer"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm border border-indigo-700"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -69,7 +69,7 @@ export default function EstimateTable({
 
         <button
           onClick={() => addRow('section')}
-          className="bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:border-slate-700 dark:hover:bg-slate-750 dark:text-slate-200 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1 cursor-pointer"
+          className="bg-slate-600 hover:bg-slate-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm border border-slate-700"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -79,7 +79,7 @@ export default function EstimateTable({
 
         <button
           onClick={() => addRow('filler')}
-          className="bg-amber-50 hover:bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:border-amber-900/60 dark:hover:bg-amber-900 dark:text-amber-300 border border-amber-200 dark:border-transparent px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1 cursor-pointer"
+          className="bg-amber-600 hover:bg-amber-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm border border-amber-700"
           title="Adds an empty spreadsheet line containing 0.00 in a chosen column, matching the screenshot layout style"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
