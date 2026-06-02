@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { EstimateRow, calculateRowAmount } from '../types/estimate';
+import { EstimateRow, calculateRowAmount, numberToWordsInIndianStyle } from '../types/estimate';
 
 interface EstimateTableProps {
   rows: EstimateRow[];
@@ -14,7 +14,14 @@ interface EstimateTableProps {
   deleteRow: (id: string) => void;
   moveRow: (index: number, direction: 'up' | 'down') => void;
   getSubtotalsForSection: (index: number) => { bsr: number; dsr: number; mr: number; total: number };
-  totals: { bsr: number; dsr: number; mr: number; grand: number };
+  totals: { 
+    bsr: number; 
+    dsr: number; 
+    mr: number; 
+    combinedRow: number; 
+    electrification: number; 
+    grand: number; 
+  };
   formatLakhs: (num: number) => string;
 }
 
@@ -77,16 +84,6 @@ export default function EstimateTable({
           Sub-Heading
         </button>
 
-        <button
-          onClick={() => addRow('filler')}
-          className="bg-amber-600 hover:bg-amber-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-sm border border-amber-700"
-          title="Adds an empty spreadsheet line containing 0.00 in a chosen column, matching the screenshot layout style"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
-          Filler row (0.00)
-        </button>
 
         <div className="h-5 w-px bg-[var(--border-color)] mx-2"></div>
 
@@ -152,10 +149,6 @@ export default function EstimateTable({
                             <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                           </svg>
                         </button>
-                        <div className="flex flex-col">
-                          <button onClick={(e) => { e.stopPropagation(); moveRow(idx, 'up'); }} className="text-[var(--text-muted)] hover:text-[var(--foreground)] cursor-pointer">▲</button>
-                          <button onClick={(e) => { e.stopPropagation(); moveRow(idx, 'down'); }} className="text-[var(--text-muted)] hover:text-[var(--foreground)] cursor-pointer">▼</button>
-                        </div>
                       </td>
 
                       {/* Merged Section Title input */}
@@ -201,10 +194,6 @@ export default function EstimateTable({
                             <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                           </svg>
                         </button>
-                        <div className="flex flex-col">
-                          <button onClick={(e) => { e.stopPropagation(); moveRow(idx, 'up'); }} className="text-[var(--text-muted)] hover:text-[var(--foreground)] cursor-pointer">▲</button>
-                          <button onClick={(e) => { e.stopPropagation(); moveRow(idx, 'down'); }} className="text-[var(--text-muted)] hover:text-[var(--foreground)] cursor-pointer">▼</button>
-                        </div>
                       </td>
 
                       <td className="px-2 py-1 border-r border-[var(--border-color)]"></td>
@@ -262,10 +251,6 @@ export default function EstimateTable({
                           <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                         </svg>
                       </button>
-                      <div className="flex flex-col">
-                        <button onClick={(e) => { e.stopPropagation(); moveRow(idx, 'up'); }} className="text-[var(--text-muted)] hover:text-[var(--foreground)] cursor-pointer">▲</button>
-                        <button onClick={(e) => { e.stopPropagation(); moveRow(idx, 'down'); }} className="text-[var(--text-muted)] hover:text-[var(--foreground)] cursor-pointer">▼</button>
-                      </div>
                     </td>
 
                     {/* Sl No */}
@@ -402,22 +387,46 @@ export default function EstimateTable({
 
             {/* Table Grand Totals Footer */}
             <tfoot className="bg-[var(--card-bg)] text-[var(--foreground)] font-black border-t-2 border-[var(--border-color)] transition-colors duration-300">
+              {/* Row 1: GR. TOTALS */}
               <tr>
-                <td colSpan={7} className="px-4 py-3 text-right text-[var(--foreground)] font-bold">GRAND TOTALS:</td>
-                <td className="px-3 py-3 border-r border-[var(--border-color)] text-right text-blue-600 dark:text-blue-400 bg-blue-500/10">
+                <td colSpan={7} className="px-4 py-2 border-r border-[var(--border-color)] text-right font-bold">GR. TOTALS:</td>
+                <td className="px-3 py-2 border-r border-[var(--border-color)] text-right text-blue-600 dark:text-blue-400 bg-blue-500/5">
                   ₹{totals.bsr.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </td>
-                <td className="px-3 py-3 border-r border-[var(--border-color)] text-right text-amber-600 dark:text-amber-400 bg-amber-500/10">
+                <td className="px-3 py-2 border-r border-[var(--border-color)] text-right text-amber-600 dark:text-amber-400 bg-amber-500/5">
                   ₹{totals.dsr.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </td>
-                <td className="px-3 py-3 text-right text-pink-600 dark:text-pink-400 bg-pink-500/10">
+                <td className="px-3 py-2 text-right text-pink-600 dark:text-pink-400 bg-pink-500/5">
                   ₹{totals.mr.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </td>
               </tr>
+              {/* Row 2: Combined Row Total */}
+              <tr>
+                <td colSpan={7} className="px-4 py-2 border-r border-[var(--border-color)]"></td>
+                <td colSpan={3} className="px-4 py-2 text-right text-[var(--foreground)] bg-slate-500/5">
+                  ₹{totals.combinedRow.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </td>
+              </tr>
+              {/* Row 3: ADD 12% surcharge */}
+              <tr>
+                <td colSpan={7} className="px-4 py-2 text-left border-r border-[var(--border-color)] font-bold text-indigo-600 dark:text-indigo-400">
+                  ADD12% FOR ELECTRIFICATION WATER SUPPLY & SANITRY
+                </td>
+                <td colSpan={3} className="px-4 py-2 text-right text-indigo-600 dark:text-indigo-400 bg-indigo-500/5">
+                  ₹{totals.electrification.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </td>
+              </tr>
+              {/* Row 4: Final combined total */}
               <tr className="bg-[var(--background)]">
-                <td colSpan={7} className="px-4 py-2.5 text-right text-[var(--text-muted)] font-medium">COMBINED ESTIMATED VALUE:</td>
-                <td colSpan={3} className="px-4 py-2.5 text-center text-emerald-600 dark:text-emerald-400 bg-emerald-500/10">
+                <td colSpan={7} className="px-4 py-2.5 text-right text-[var(--text-muted)] font-medium border-r border-[var(--border-color)]">COMBINED ESTIMATED VALUE:</td>
+                <td colSpan={3} className="px-4 py-2.5 text-center text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 text-sm">
                   ₹{totals.grand.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({formatLakhs(totals.grand)} Lakh)
+                </td>
+              </tr>
+              {/* Row 5: Words */}
+              <tr className="bg-[var(--card-bg)]">
+                <td colSpan={10} className="px-4 py-3 text-left border-t border-[var(--border-color)] italic font-semibold text-[var(--text-muted)] tracking-wide">
+                  Spelled in Words: <span className="text-[var(--foreground)] font-bold uppercase">{numberToWordsInIndianStyle(totals.grand)}/</span>
                 </td>
               </tr>
             </tfoot>

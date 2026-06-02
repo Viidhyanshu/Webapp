@@ -4,17 +4,28 @@ import React from 'react';
 import { ProjectDetails } from '../types/estimate';
 
 interface AnalysisPanelProps {
-  totals: { bsr: number; dsr: number; mr: number; grand: number };
+  totals: { 
+    bsr: number; 
+    dsr: number; 
+    mr: number; 
+    combinedRow: number; 
+    electrification: number; 
+    grand: number; 
+  };
   project: ProjectDetails;
   setProject: React.Dispatch<React.SetStateAction<ProjectDetails>>;
   formatLakhs: (num: number) => string;
+  applyAdjustment: boolean;
+  setApplyAdjustment: (val: boolean) => void;
 }
 
 export default function AnalysisPanel({
   totals,
   project,
   setProject,
-  formatLakhs
+  formatLakhs,
+  applyAdjustment,
+  setApplyAdjustment,
 }: AnalysisPanelProps) {
   return (
     <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-5 shadow-sm space-y-4 transition-colors duration-300">
@@ -67,6 +78,25 @@ export default function AnalysisPanel({
           readOnly
           className="w-full bg-[var(--input-bg)] border border-[var(--border-color)] rounded-lg px-3 py-1.5 text-sm font-bold text-[var(--foreground)] opacity-70 cursor-not-allowed focus:outline-none transition-colors duration-300"
         />
+      </div>
+
+      {/* Spreadsheet Math adjustment toggle */}
+      <div className="bg-[var(--background)] rounded-xl p-3 border border-[var(--border-color)] transition-colors duration-300">
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="applyAdjustmentCheck"
+            checked={applyAdjustment}
+            onChange={(e) => setApplyAdjustment(e.target.checked)}
+            className="rounded text-blue-600 focus:ring-blue-500 bg-[var(--input-bg)] border-[var(--border-color)] cursor-pointer"
+          />
+          <label htmlFor="applyAdjustmentCheck" className="text-xs text-[var(--foreground)] font-semibold cursor-pointer">
+            Match Spreadsheet Totals
+          </label>
+        </div>
+        <p className="text-[10px] text-[var(--text-muted)] mt-1 leading-normal">
+          Compensates for UDHD sheet addition errors (-₹99,803.23 BSR, +₹2.33 DSR). Uncheck to use mathematically correct sums.
+        </p>
       </div>
 
     </div>

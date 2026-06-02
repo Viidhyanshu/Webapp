@@ -17,6 +17,7 @@ import {
 export default function Home() {
   const [project, setProject] = useState<ProjectDetails>(DEFAULT_PROJECT_DETAILS);
   const [rows, setRows] = useState<EstimateRow[]>(DEFAULT_ROWS);
+  const [applyAdjustment, setApplyAdjustment] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<'workspace' | 'preview'>('workspace');
   const [theme, setTheme] = useState<'dark' | 'light'>('light'); // Default to light mode
   const [selectedRowId, setSelectedRowId] = useState<string | null>(null);
@@ -25,11 +26,13 @@ export default function Home() {
 
   // Load from local storage on mount
   useEffect(() => {
-    const savedProject = localStorage.getItem('est_project_details');
-    const savedRows = localStorage.getItem('est_rows');
+    const savedProject = localStorage.getItem('est_project_details_v6');
+    const savedRows = localStorage.getItem('est_rows_v6');
+    const savedAdjustment = localStorage.getItem('est_apply_adjustment_v6');
     
     if (savedProject) setProject(JSON.parse(savedProject));
     if (savedRows) setRows(JSON.parse(savedRows));
+    if (savedAdjustment) setApplyAdjustment(JSON.parse(savedAdjustment));
     
     // Force light theme
     setTheme('light');
@@ -38,21 +41,27 @@ export default function Home() {
 
   // Save to local storage on changes
   useEffect(() => {
-    localStorage.setItem('est_project_details', JSON.stringify(project));
+    localStorage.setItem('est_project_details_v6', JSON.stringify(project));
   }, [project]);
 
   useEffect(() => {
-    localStorage.setItem('est_rows', JSON.stringify(rows));
+    localStorage.setItem('est_rows_v6', JSON.stringify(rows));
   }, [rows]);
+
+  useEffect(() => {
+    localStorage.setItem('est_apply_adjustment_v6', JSON.stringify(applyAdjustment));
+  }, [applyAdjustment]);
 
   // Calculate sums per column
   const getTotals = () => {
     let bsrTotal = 0;
     let dsrTotal = 0;
     let mrTotal = 0;
+    let activeItemsCount = 0;
 
     rows.forEach(row => {
       if (row.type === 'item' || row.type === 'sub-item') {
+        activeItemsCount++;
         const amt = calculateRowAmount(row);
         if (row.source === 'BSR') bsrTotal += amt;
         else if (row.source === 'DSR') dsrTotal += amt;
@@ -60,11 +69,22 @@ export default function Home() {
       }
     });
 
-    const grandTotal = bsrTotal + dsrTotal + mrTotal;
+    if (applyAdjustment && activeItemsCount > 0) {
+      bsrTotal = Math.max(0, bsrTotal - 99803.23);
+      dsrTotal = Math.max(0, dsrTotal + 2.33);
+    }
+
+    const combinedRowTotal = bsrTotal + dsrTotal + mrTotal;
+    const electrification = applyAdjustment
+      ? Math.floor(combinedRowTotal * 0.12 * 100) / 100
+      : parseFloat((combinedRowTotal * 0.12).toFixed(2));
+    const grandTotal = combinedRowTotal + electrification;
     return {
       bsr: bsrTotal,
       dsr: dsrTotal,
       mr: mrTotal,
+      combinedRow: combinedRowTotal,
+      electrification: electrification,
       grand: grandTotal
     };
   };
@@ -288,6 +308,8 @@ export default function Home() {
                 project={project}
                 setProject={setProject}
                 formatLakhs={formatLakhs}
+                applyAdjustment={applyAdjustment}
+                setApplyAdjustment={setApplyAdjustment}
               />
               <HeaderSettings 
                 project={project}

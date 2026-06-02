@@ -1,12 +1,19 @@
 'use client';
 
 import React from 'react';
-import { EstimateRow, ProjectDetails, calculateRowAmount } from '../types/estimate';
+import { EstimateRow, ProjectDetails, calculateRowAmount, numberToWordsInIndianStyle } from '../types/estimate';
 
 interface PrintableContentProps {
   project: ProjectDetails;
   rows: EstimateRow[];
-  totals: { bsr: number; dsr: number; mr: number; grand: number };
+  totals: { 
+    bsr: number; 
+    dsr: number; 
+    mr: number; 
+    combinedRow: number; 
+    electrification: number; 
+    grand: number; 
+  };
   formatLakhs: (num: number) => string;
   showSubtotalsInPrint: boolean;
   getSubtotalsForSection: (index: number) => { bsr: number; dsr: number; mr: number; total: number };
@@ -176,23 +183,51 @@ export default function PrintableContent({
           })}
         </tbody>
 
-        {/* Print totals summary - optional to hide or show */}
-        {showSubtotalsInPrint && (
-          <tfoot>
-            <tr className="border-b border-black font-bold">
-              <td colSpan={6} className="py-1.5 px-2 text-right font-bold">TOTALS:</td>
-              <td className="py-1.5 px-1 border-r border-black text-right font-bold">₹{totals.bsr.toFixed(2)}</td>
-              <td className="py-1.5 px-1 border-r border-black text-right font-bold">₹{totals.dsr.toFixed(2)}</td>
-              <td className="py-1.5 px-1 text-right font-bold">₹{totals.mr.toFixed(2)}</td>
-            </tr>
-            <tr className="font-bold">
-              <td colSpan={6} className="py-1.5 px-2 text-right font-bold">GRAND TOTAL:</td>
-              <td colSpan={3} className="py-1.5 px-2 text-center font-black bg-gray-50">
-                ₹{totals.grand.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({formatLakhs(totals.grand)} Lakh)
-              </td>
-            </tr>
-          </tfoot>
-        )}
+        {/* Print totals summary - matching original sheet layout */}
+        <tfoot>
+          {/* Row 1: GR. TOTAL */}
+          <tr className="border-b border-black font-bold">
+            <td colSpan={6} className="py-1 px-2 text-right border-r border-black font-bold">GR. TOTAL</td>
+            <td className="py-1 px-1 border-r border-black text-right font-bold">
+              {totals.bsr.toFixed(2)}
+            </td>
+            <td className="py-1 px-1 border-r border-black text-right font-bold">
+              {totals.dsr.toFixed(2)}
+            </td>
+            <td className="py-1 px-1 text-right font-bold">
+              {totals.mr.toFixed(2)}
+            </td>
+          </tr>
+          {/* Row 2: Combined Row Total */}
+          <tr className="border-b border-black font-bold">
+            <td colSpan={6} className="py-1 px-2 border-r border-black"></td>
+            <td colSpan={3} className="py-1 px-2 text-right font-bold">
+              {totals.combinedRow.toFixed(2)}
+            </td>
+          </tr>
+          {/* Row 3: ADD 12% Electrification, Water Supply & Sanitary */}
+          <tr className="border-b border-black font-bold">
+            <td colSpan={6} className="py-1.5 px-2 text-left border-r border-black font-bold">
+              ADD12% FOR ELECTRIFICATION WATER SUPPLY & SANITRY
+            </td>
+            <td colSpan={3} className="py-1.5 px-2 text-right font-bold">
+              {totals.electrification.toFixed(2)}
+            </td>
+          </tr>
+          {/* Row 4: Final combined total */}
+          <tr className="border-b border-black font-bold">
+            <td colSpan={6} className="py-1.5 px-2 border-r border-black"></td>
+            <td colSpan={3} className="py-1.5 px-2 text-right font-bold">
+              {totals.grand.toFixed(2)}
+            </td>
+          </tr>
+          {/* Row 5: Words */}
+          <tr className="font-bold">
+            <td colSpan={9} className="py-2.5 px-2 text-left uppercase text-[9px] font-black leading-relaxed">
+              {numberToWordsInIndianStyle(totals.grand)}/
+            </td>
+          </tr>
+        </tfoot>
       </table>
 
     </div>
